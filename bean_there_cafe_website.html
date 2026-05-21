@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bean There — Bold Brews • Chill Vibes</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--c1:#1C120D;--c2:#2B1D16;--c3:#6F4E37;--c4:#D6B48A;--c5:#F5EFE6;
+--gold:#C9A96E;--cream:#F0E6D3;--text-light:#E8DDD0;
+}
+html{scroll-behavior:smooth}
+body{background:#1C120D;color:#F5EFE6;font-family:'Inter',sans-serif;overflow-x:hidden;cursor:default}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:#1C120D}::-webkit-scrollbar-thumb{background:#6F4E37;border-radius:2px}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:1.5rem 4rem;display:flex;align-items:center;justify-content:space-between;transition:all .4s ease}
+nav.scrolled{background:rgba(28,18,13,0.9);backdrop-filter:blur(20px);padding:1rem 4rem;border-bottom:1px solid rgba(214,180,138,0.12)}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:#D6B48A;letter-spacing:0.05em;cursor:pointer}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{color:rgba(245,239,230,0.75);text-decoration:none;font-size:.85rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:400;transition:color .3s;cursor:pointer}
+.nav-links a:hover{color:#D6B48A}
+.nav-cta{background:transparent;border:1px solid rgba(214,180,138,0.5);color:#D6B48A;padding:.55rem 1.5rem;font-size:.8rem;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;transition:all .3s;font-family:'Inter',sans-serif}
+.nav-cta:hover{background:#D6B48A;color:#1C120D}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;min-width:44px;min-height:44px;align-items:center;justify-content:center;border:none;background:none}
+.hamburger span{width:24px;height:1.5px;background:#D6B48A;transition:all .3s;display:block}
+.mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#1C120D;z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;overflow:hidden}
+.mobile-menu.open{display:flex}
+.mobile-menu a{font-family:'Playfair Display',serif;font-size:1.9rem;color:#D6B48A;text-decoration:none;cursor:pointer;padding:.4rem 2rem;min-height:48px;display:flex;align-items:center}
+.mobile-close{position:absolute;top:1.4rem;right:1.4rem;background:none;border:none;color:#D6B48A;font-size:1.6rem;cursor:pointer;padding:.5rem;min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center;line-height:1}
+/* Touch-friendly */
+button,a,.cs-thumb,.drink-card,.maggi-photo,.gp-item,.masonry-item{-webkit-tap-highlight-color:transparent}
+input,select,textarea{font-size:16px!important}
+
+/* PAGES */
+.page{display:none;min-height:100vh;animation:fadeIn .6s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* HERO */
+.hero{position:relative;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.hero-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=1600&q=80');background-size:cover;background-position:center;transform:scale(1.1);animation:heroZoom 8s ease forwards}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(28,18,13,0.92) 0%,rgba(28,18,13,0.6) 50%,rgba(43,29,22,0.85) 100%)}
+.hero-content{position:relative;z-index:2;text-align:center;padding:0 2rem}
+.hero-eyebrow{font-size:.75rem;letter-spacing:.35em;text-transform:uppercase;color:#C9A96E;margin-bottom:1.5rem;opacity:0;animation:slideUp .8s .4s ease forwards}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(4rem,10vw,9rem);font-weight:900;line-height:.9;color:#F5EFE6;margin-bottom:1.2rem;opacity:0;animation:slideUp .8s .6s ease forwards}
+.hero-title span{color:#D6B48A;font-style:italic}
+.hero-tagline{font-size:clamp(.9rem,2vw,1.1rem);letter-spacing:.25em;color:rgba(245,239,230,0.65);text-transform:uppercase;margin-bottom:3rem;opacity:0;animation:slideUp .8s .8s ease forwards}
+.hero-btns{display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap;opacity:0;animation:slideUp .8s 1s ease forwards}
+.btn-primary{background:#D6B48A;color:#1C120D;padding:.85rem 2.5rem;font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-weight:600;transition:all .3s}
+.btn-primary:hover{background:#C9A96E;transform:translateY(-2px)}
+.btn-ghost{background:transparent;color:#F5EFE6;padding:.85rem 2.5rem;font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;border:1px solid rgba(245,239,230,0.3);cursor:pointer;font-family:'Inter',sans-serif;transition:all .3s}
+.btn-ghost:hover{border-color:#D6B48A;color:#D6B48A}
+.hero-scroll{position:absolute;bottom:3rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;opacity:0;animation:fadeIn2 1s 1.5s forwards}
+.scroll-line{width:1px;height:60px;background:linear-gradient(to bottom,#D6B48A,transparent);animation:scrollPulse 2s ease-in-out infinite}
+.scroll-text{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(214,180,138,0.6)}
+@keyframes heroZoom{to{transform:scale(1)}}
+@keyframes slideUp{to{opacity:1;transform:translateY(0)}}
+@keyframes scrollPulse{0%,100%{opacity:.3}50%{opacity:1}}
+@keyframes fadeIn2{from{opacity:0}to{opacity:1}}
+
+/* SECTIONS */
+section{padding:7rem 4rem}
+.section-label{font-size:.7rem;letter-spacing:.35em;text-transform:uppercase;color:#C9A96E;margin-bottom:1rem;display:block}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5vw,4rem);font-weight:700;line-height:1.1;color:#F5EFE6;margin-bottom:1.5rem}
+.section-title em{color:#D6B48A;font-style:italic}
+.section-body{font-size:1rem;line-height:1.85;color:rgba(245,239,230,0.65);max-width:550px}
+.divider{width:60px;height:1px;background:#6F4E37;margin:2rem 0}
+
+/* MARQUEE */
+.marquee-wrap{background:#2B1D16;padding:1.2rem 0;border-top:1px solid rgba(214,180,138,0.1);border-bottom:1px solid rgba(214,180,138,0.1);overflow:hidden}
+.marquee-track{display:flex;gap:3rem;animation:marquee 30s linear infinite;white-space:nowrap}
+.marquee-track span{font-size:.75rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(214,180,138,0.5)}
+.marquee-track .dot{color:#6F4E37}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ====================== COFFEE SHOWCASE (React-style interactive) ====================== */
+#coffee-showcase{
+  position:relative;
+  width:100%;
+  min-height:100vh;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+}
+.cs-bg{
+  position:absolute;inset:0;
+  transition:background 1.2s cubic-bezier(0.22,1,0.36,1);
+  z-index:0;
+}
+.cs-inner{
+  position:relative;z-index:2;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  align-items:center;
+  min-height:100vh;
+  padding:6rem 4rem 8rem;
+  gap:4rem;
+}
+/* LEFT PANEL */
+.cs-left{display:flex;flex-direction:column;justify-content:center;gap:2rem}
+.cs-eyebrow{font-size:.7rem;letter-spacing:.35em;text-transform:uppercase;color:#C9A96E;transition:color .6s}
+.cs-label{
+  display:inline-block;
+  font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
+  padding:.4rem 1rem;
+  border:1px solid rgba(214,180,138,0.3);
+  color:rgba(214,180,138,0.8);
+  margin-bottom:.5rem;
+  transition:all .5s;
+}
+.cs-name{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(3.5rem,7vw,7rem);
+  font-weight:900;
+  line-height:.9;
+  color:#F5EFE6;
+  transition:opacity .4s;
+}
+.cs-name em{color:#D6B48A;font-style:italic}
+.cs-desc{
+  font-size:.95rem;
+  line-height:1.85;
+  color:rgba(245,239,230,0.6);
+  max-width:420px;
+  transition:opacity .4s;
+}
+.cs-price-row{display:flex;align-items:baseline;gap:.75rem}
+.cs-price{
+  font-family:'Playfair Display',serif;
+  font-size:2.5rem;font-weight:700;
+  color:#D6B48A;
+  transition:color .6s;
+}
+.cs-price-label{font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,239,230,0.4)}
+.cs-rating-row{display:flex;align-items:center;gap:1rem}
+.cs-rating-num{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:#F5EFE6}
+.cs-stars{display:flex;gap:3px}
+.cs-star{font-size:12px;transition:color .5s}
+.cs-star.on{color:#D6B48A}
+.cs-star.off{color:rgba(214,180,138,0.2)}
+.cs-reviews{font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:rgba(245,239,230,0.4);margin-top:4px}
+.cs-order-btn{
+  align-self:flex-start;
+  background:#D6B48A;color:#1C120D;
+  padding:.85rem 2.5rem;font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;
+  border:none;cursor:pointer;font-family:'Inter',sans-serif;font-weight:600;
+  transition:all .3s;margin-top:.5rem;
+  min-height:48px;
+}
+.cs-order-btn:hover{background:#C9A96E;transform:translateY(-2px)}
+
+/* RIGHT PANEL */
+.cs-right{
+  position:relative;
+  display:flex;align-items:center;justify-content:center;
+  height:600px;
+}
+.cs-glow{
+  position:absolute;
+  width:380px;height:380px;border-radius:50%;
+  filter:blur(90px);
+  transition:background 1.2s cubic-bezier(0.22,1,0.36,1);
+  z-index:1;
+  animation:glowPulse 4s ease-in-out infinite;
+}
+@keyframes glowPulse{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.08)}}
+.cs-ring{
+  position:absolute;border-radius:50%;border:1px solid rgba(214,180,138,0.08);
+  z-index:2;
+}
+.cs-ring-1{width:460px;height:460px;animation:rotateRing 30s linear infinite}
+.cs-ring-2{width:540px;height:540px;animation:rotateRing 50s linear infinite reverse}
+@keyframes rotateRing{to{transform:rotate(360deg)}}
+.cs-img-wrap{
+  position:relative;z-index:10;
+  width:360px;height:360px;border-radius:50%;overflow:hidden;
+  box-shadow:0 48px 140px rgba(0,0,0,0.75),0 0 0 1px rgba(214,180,138,0.12);
+  transition:opacity .7s cubic-bezier(0.22,1,0.36,1), transform .85s cubic-bezier(0.22,1,0.36,1);
+}
+.cs-img-wrap.hidden{opacity:0;transform:scale(0.86) rotate(-6deg)}
+.cs-img-wrap.visible{opacity:1;transform:scale(1) rotate(0deg)}
+.cs-img-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+.cs-vignette{position:absolute;inset:0;border-radius:50%;background:radial-gradient(ellipse at center,transparent 55%,rgba(12,6,3,0.55) 100%);pointer-events:none}
+.cs-bg-text{
+  position:absolute;
+  font-family:'Playfair Display',serif;
+  font-size:clamp(90px,14vw,180px);
+  font-weight:900;
+  color:rgba(255,255,255,0.025);
+  text-transform:uppercase;
+  letter-spacing:-4px;
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  white-space:nowrap;pointer-events:none;line-height:1;z-index:1;
+  transition:opacity .6s;
+}
+
+/* FLOATING BEANS */
+.cs-bean{
+  position:absolute;border-radius:50%;overflow:hidden;
+  box-shadow:0 8px 30px rgba(0,0,0,0.6);
+  z-index:12;
+  animation:floatBean 6s ease-in-out infinite;
+}
+@keyframes floatBean{
+  0%,100%{transform:translateY(0) rotate(0deg)}
+  50%{transform:translateY(-18px) rotate(15deg)}
+}
+
+/* SELECTOR BAR */
+.cs-selector{
+  position:relative;z-index:20;
+  display:flex;gap:8px;align-items:flex-end;justify-content:center;
+  padding:1.5rem 4rem 2rem;
+  background:linear-gradient(to top,rgba(28,18,13,1) 0%,rgba(28,18,13,0.6) 100%);
+}
+.cs-thumb{
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  padding:8px 12px;border-radius:80px;cursor:pointer;
+  transition:all .4s cubic-bezier(0.22,1,0.36,1);
+  border:1px solid transparent;
+}
+.cs-thumb:hover{background:rgba(214,180,138,0.06);transform:translateY(-3px)}
+.cs-thumb.active{background:rgba(214,180,138,0.12);border-color:rgba(214,180,138,0.2)}
+.cs-thumb-img{
+  width:50px;height:50px;border-radius:50%;overflow:hidden;
+  border:2px solid transparent;
+  transition:all .4s cubic-bezier(0.22,1,0.36,1);
+}
+.cs-thumb.active .cs-thumb-img{border-color:#D6B48A;box-shadow:0 0 24px rgba(214,180,138,0.45);transform:scale(1.14)}
+.cs-thumb-img img{width:100%;height:100%;object-fit:cover}
+.cs-thumb-name{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(245,239,230,0.35);transition:color .4s;font-family:'DM Sans',sans-serif}
+.cs-thumb.active .cs-thumb-name{color:#D6B48A}
+
+/* DRINKS GRID */
+.drinks-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:4rem}
+.drink-card{position:relative;overflow:hidden;aspect-ratio:3/4;cursor:pointer}
+.drink-card img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(0.22,1,0.36,1)}
+.drink-card:hover img{transform:scale(1.08)}
+.drink-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,18,13,0.95) 0%,rgba(28,18,13,0.2) 50%,transparent 100%)}
+.drink-card-content{position:absolute;bottom:0;left:0;right:0;padding:2rem}
+.drink-tag{font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:#C9A96E;margin-bottom:.5rem;display:block}
+.drink-name{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:600;color:#F5EFE6;margin-bottom:.3rem}
+.drink-price{font-size:.85rem;color:rgba(214,180,138,0.7);font-weight:300}
+
+/* STATS */
+.stats-section{background:#2B1D16;padding:5rem 4rem;border-top:1px solid rgba(214,180,138,0.08);border-bottom:1px solid rgba(214,180,138,0.08)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;text-align:center}
+.stat-num{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5vw,4rem);font-weight:700;color:#D6B48A;line-height:1}
+.stat-label{font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,239,230,0.45);margin-top:.5rem}
+
+/* WHY US */
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:4rem}
+.why-card{padding:2.5rem;border:1px solid rgba(214,180,138,0.1);background:rgba(43,29,22,0.4);transition:all .4s}
+.why-card:hover{border-color:rgba(214,180,138,0.3);background:rgba(43,29,22,0.7);transform:translateY(-4px)}
+.why-num{font-family:'Playfair Display',serif;font-size:3rem;font-weight:700;color:rgba(214,180,138,0.2);line-height:1;margin-bottom:1.5rem}
+.why-title{font-family:'Playfair Display',serif;font-size:1.3rem;color:#F5EFE6;margin-bottom:.75rem}
+.why-text{font-size:.9rem;line-height:1.8;color:rgba(245,239,230,0.55)}
+
+/* MAGGI SECTION */
+.maggi-section{
+  padding:7rem 4rem;
+  background:linear-gradient(135deg,#1a0e08 0%,#2B1D16 100%);
+  position:relative;overflow:hidden;
+}
+.maggi-section::before{
+  content:'मैगी';
+  position:absolute;right:-2rem;top:50%;transform:translateY(-50%);
+  font-family:'Playfair Display',serif;
+  font-size:15rem;font-weight:900;
+  color:rgba(214,180,138,0.04);
+  line-height:1;pointer-events:none;
+}
+.maggi-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;margin-top:4rem}
+.maggi-photos{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.maggi-photo{overflow:hidden;aspect-ratio:1;cursor:pointer}
+.maggi-photo:first-child{aspect-ratio:2/1;grid-column:span 2}
+.maggi-photo img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(0.22,1,0.36,1)}
+.maggi-photo:hover img{transform:scale(1.06)}
+.maggi-items{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.5rem}
+.maggi-tag{padding:.5rem 1.2rem;border:1px solid rgba(214,180,138,0.2);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(214,180,138,0.7)}
+
+/* GALLERY PREVIEW */
+.gallery-preview{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:repeat(2,240px);gap:1rem;margin-top:4rem}
+.gp-item{overflow:hidden;cursor:pointer}
+.gp-item:first-child{grid-row:span 2}
+.gp-item img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(0.22,1,0.36,1)}
+.gp-item:hover img{transform:scale(1.06)}
+
+/* TESTIMONIALS */
+.testimonials-section{background:linear-gradient(135deg,#2B1D16 0%,#1C120D 100%);padding:7rem 4rem}
+.test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:4rem}
+.test-card{padding:2.5rem;background:rgba(255,255,255,0.03);border:1px solid rgba(214,180,138,0.1);backdrop-filter:blur(10px)}
+.test-quote{font-family:'Playfair Display',serif;font-size:1.05rem;line-height:1.7;color:rgba(245,239,230,0.8);font-style:italic;margin-bottom:1.5rem}
+.test-name{font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;color:#C9A96E}
+.test-stars{color:#D6B48A;font-size:.9rem;letter-spacing:2px;margin-bottom:.5rem}
+
+/* LATE NIGHT */
+.late-night{position:relative;overflow:hidden;height:70vh}
+.late-night-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1600&q=80');background-size:cover;background-position:center}
+.late-night-overlay{position:absolute;inset:0;background:linear-gradient(to right,rgba(28,18,13,0.98) 0%,rgba(28,18,13,0.7) 60%,rgba(28,18,13,0.3) 100%)}
+.late-night-content{position:relative;z-index:2;padding:8rem 4rem;max-width:650px}
+.late-items{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2rem}
+.late-item{padding:.5rem 1.2rem;border:1px solid rgba(214,180,138,0.2);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(214,180,138,0.7)}
+
+/* SPECIALS */
+.specials-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:4rem}
+.special-card{position:relative;overflow:hidden;aspect-ratio:16/9;cursor:pointer}
+.special-card img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(0.22,1,0.36,1)}
+.special-card:hover img{transform:scale(1.06)}
+.special-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,18,13,0.9) 0%,rgba(28,18,13,0.1) 60%,transparent 100%)}
+.special-content{position:absolute;bottom:0;left:0;right:0;padding:2.5rem}
+.special-tag{font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:#C9A96E;margin-bottom:.5rem}
+.special-name{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:#F5EFE6;margin-bottom:.5rem}
+.special-desc{font-size:.85rem;color:rgba(245,239,230,0.6);line-height:1.7}
+
+/* NIGHT SECTION */
+.night-section{position:relative;height:80vh;overflow:hidden;display:flex;align-items:center}
+.night-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1600&q=80');background-size:cover;background-position:center}
+.night-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(28,18,13,0.9) 0%,rgba(43,29,22,0.6) 100%)}
+.night-content{position:relative;z-index:2;padding:0 4rem;max-width:700px}
+.night-title{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,6vw,5rem);font-weight:900;color:#F5EFE6;line-height:1.1;margin-bottom:1.5rem}
+.night-title em{color:#D6B48A;font-style:italic}
+
+/* MENU PAGE */
+.menu-header{padding:12rem 4rem 4rem;text-align:center}
+.filter-tabs{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;margin-top:3rem}
+.filter-btn{padding:.6rem 1.5rem;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;border:1px solid rgba(214,180,138,0.25);background:transparent;color:rgba(245,239,230,0.6);cursor:pointer;font-family:'Inter',sans-serif;transition:all .3s}
+.filter-btn.active,.filter-btn:hover{background:#D6B48A;color:#1C120D;border-color:#D6B48A}
+.menu-section{padding:0 4rem 5rem}
+.menu-category{margin-bottom:5rem}
+.cat-title{font-family:'Playfair Display',serif;font-size:2rem;font-weight:600;color:#D6B48A;margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid rgba(214,180,138,0.15)}
+.menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem}
+.menu-card{background:rgba(43,29,22,0.5);border:1px solid rgba(214,180,138,0.1);overflow:hidden;cursor:pointer;transition:all .4s cubic-bezier(0.22,1,0.36,1)}
+.menu-card:hover{transform:translateY(-6px);border-color:rgba(214,180,138,0.35);box-shadow:0 20px 60px rgba(0,0,0,0.4)}
+.menu-card-img{height:200px;overflow:hidden}
+.menu-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(0.22,1,0.36,1)}
+.menu-card:hover .menu-card-img img{transform:scale(1.08)}
+.menu-card-body{padding:1.5rem}
+.menu-card-name{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:600;color:#F5EFE6;margin-bottom:.4rem}
+.menu-card-desc{font-size:.82rem;line-height:1.7;color:rgba(245,239,230,0.55);margin-bottom:1rem}
+.menu-card-footer{display:flex;align-items:center;justify-content:space-between}
+.menu-price{font-size:1rem;font-weight:600;color:#D6B48A}
+.menu-badge{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .75rem;background:rgba(214,180,138,0.1);color:rgba(214,180,138,0.7);border:1px solid rgba(214,180,138,0.2)}
+
+/* ABOUT */
+.about-hero{position:relative;height:70vh;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.about-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1600&q=80');background-size:cover;background-position:center}
+.about-overlay{position:absolute;inset:0;background:rgba(28,18,13,0.75)}
+.about-hero-content{position:relative;z-index:2;text-align:center}
+.about-story{padding:7rem 4rem}
+.story-split{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;margin-bottom:7rem}
+.story-split.reverse{direction:rtl}.story-split.reverse>*{direction:ltr}
+.story-img{overflow:hidden;aspect-ratio:4/5}
+.story-img img{width:100%;height:100%;object-fit:cover;transition:transform .7s ease}
+.story-img:hover img{transform:scale(1.04)}
+.founders-section{padding:5rem 4rem;background:#2B1D16;text-align:center}
+.founders-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;max-width:800px;margin:4rem auto 0}
+.founder-card{text-align:center}
+.founder-img{width:200px;height:200px;border-radius:50%;overflow:hidden;margin:0 auto 1.5rem;border:2px solid rgba(214,180,138,0.3)}
+.founder-img img{width:100%;height:100%;object-fit:cover}
+.founder-name{font-family:'Playfair Display',serif;font-size:1.5rem;color:#F5EFE6;margin-bottom:.3rem}
+.founder-role{font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;color:#C9A96E}
+
+/* GALLERY */
+.gallery-header{padding:12rem 4rem 4rem;text-align:center}
+.masonry{columns:3;column-gap:1rem;padding:0 4rem 5rem}
+.masonry-item{break-inside:avoid;margin-bottom:1rem;overflow:hidden;cursor:pointer;display:block}
+.masonry-item img{width:100%;display:block;transition:transform .6s cubic-bezier(0.22,1,0.36,1)}
+.masonry-item:hover img{transform:scale(1.04)}
+.lightbox{display:none;position:fixed;inset:0;background:rgba(28,18,13,0.97);z-index:2000;align-items:center;justify-content:center}
+.lightbox.open{display:flex}
+.lightbox img{max-width:90vw;max-height:90vh;object-fit:contain}
+.lightbox-close{position:fixed;top:2rem;right:2rem;background:none;border:none;color:#D6B48A;font-size:2rem;cursor:pointer;padding:.5rem}
+
+/* EXPERIENCE */
+.exp-hero{position:relative;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.exp-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=1600&q=80');background-size:cover;background-position:center}
+.exp-overlay{position:absolute;inset:0;background:rgba(28,18,13,0.8)}
+.exp-content{position:relative;z-index:2;text-align:center;max-width:800px;padding:0 2rem}
+.exp-quote{font-family:'Playfair Display',serif;font-size:clamp(1rem,2.5vw,1.4rem);font-style:italic;color:rgba(245,239,230,0.7);line-height:1.8;margin-bottom:1.5rem}
+.exp-chapter{padding:7rem 4rem;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.exp-chapter.alt{background:#2B1D16}
+.exp-chapter.alt .exp-chapter-img{order:2}
+.exp-chapter-img{aspect-ratio:4/5;overflow:hidden}
+.exp-chapter-img img{width:100%;height:100%;object-fit:cover}
+.chapter-num{font-family:'Playfair Display',serif;font-size:6rem;font-weight:900;color:rgba(214,180,138,0.1);line-height:1;margin-bottom:-.5rem}
+.chapter-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);color:#F5EFE6;margin-bottom:1rem}
+.chapter-body{font-size:.95rem;line-height:1.9;color:rgba(245,239,230,0.6)}
+.fullwidth-quote{padding:6rem 4rem;text-align:center;background:#2B1D16;border-top:1px solid rgba(214,180,138,0.08);border-bottom:1px solid rgba(214,180,138,0.08)}
+.fq-text{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,4vw,3rem);font-style:italic;color:#F5EFE6;max-width:900px;margin:0 auto;line-height:1.5}
+.fq-text em{color:#D6B48A}
+
+/* CONTACT */
+.contact-hero{padding:12rem 4rem 5rem;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start}
+.contact-form-wrap{padding:3rem;background:rgba(43,29,22,0.5);border:1px solid rgba(214,180,138,0.12)}
+.form-group{margin-bottom:1.5rem}
+.form-label{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(214,180,138,0.7);display:block;margin-bottom:.5rem}
+.form-input{width:100%;background:rgba(28,18,13,0.6);border:1px solid rgba(214,180,138,0.15);padding:.9rem 1.2rem;color:#F5EFE6;font-family:'Inter',sans-serif;font-size:.9rem;outline:none;transition:border-color .3s}
+.form-input:focus{border-color:rgba(214,180,138,0.5)}
+textarea.form-input{height:140px;resize:none}
+.contact-info{padding-top:1rem}
+.info-card{padding:2rem;border:1px solid rgba(214,180,138,0.1);background:rgba(43,29,22,0.3);margin-bottom:1.5rem}
+.info-label{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:#C9A96E;margin-bottom:.5rem;display:block}
+.info-text{font-size:.9rem;line-height:1.7;color:rgba(245,239,230,0.7)}
+.map-wrap{margin-top:2rem;height:300px;overflow:hidden;border:1px solid rgba(214,180,138,0.1)}
+.map-wrap iframe{width:100%;height:100%;border:none;filter:grayscale(80%) invert(90%) hue-rotate(180deg)}
+
+/* FOOTER */
+footer{background:#141008;padding:5rem 4rem 2rem;border-top:1px solid rgba(214,180,138,0.1)}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:4rem;margin-bottom:4rem}
+.footer-logo{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:#D6B48A;margin-bottom:.75rem}
+.footer-tagline{font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,239,230,0.4);margin-bottom:1.5rem}
+.footer-desc{font-size:.85rem;line-height:1.8;color:rgba(245,239,230,0.4);max-width:300px}
+.footer-col-title{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:#C9A96E;margin-bottom:1.5rem}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:.75rem}
+.footer-links a{font-size:.85rem;color:rgba(245,239,230,0.45);text-decoration:none;cursor:pointer;transition:color .3s}
+.footer-links a:hover{color:#D6B48A}
+.footer-bottom{border-top:1px solid rgba(214,180,138,0.08);padding-top:2rem;display:flex;justify-content:space-between;align-items:center}
+.footer-copy{font-size:.78rem;color:rgba(245,239,230,0.3)}
+
+/* LOADER */
+.loader{position:fixed;inset:0;background:#1C120D;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;transition:opacity .8s ease}
+.loader.hidden{opacity:0;pointer-events:none}
+.loader-logo{font-family:'Playfair Display',serif;font-size:3rem;font-weight:700;color:#D6B48A;animation:pulse 1.5s ease-in-out infinite}
+.loader-bar{width:200px;height:1px;background:rgba(214,180,138,0.2);margin-top:2rem;overflow:hidden}
+.loader-fill{height:100%;background:#D6B48A;animation:load 2s ease forwards}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+@keyframes load{from{width:0}to{width:100%}}
+
+/* ===================== RESPONSIVE — TABLET (≤900px) ===================== */
+@media(max-width:900px){
+  /* NAV */
+  nav{padding:1rem 1.5rem}
+  nav.scrolled{padding:.75rem 1.5rem}
+  .hamburger{display:flex}
+  .nav-links,.nav-cta{display:none}
+
+  /* GENERAL */
+  section{padding:4rem 1.5rem}
+  .section-title{font-size:clamp(2rem,6vw,3rem)}
+  .btn-primary,.btn-ghost{padding:.75rem 2rem;font-size:.78rem}
+
+  /* HERO */
+  .hero-title{font-size:clamp(3.5rem,12vw,6rem)}
+  .hero-tagline{font-size:.85rem;letter-spacing:.15em}
+  .hero-btns{gap:.8rem}
+
+  /* COFFEE SHOWCASE */
+  #coffee-showcase{min-height:auto}
+  .cs-inner{
+    grid-template-columns:1fr;
+    padding:5rem 1.5rem 1rem;
+    gap:2rem;
+    min-height:auto;
+  }
+  .cs-left{gap:1.2rem;align-items:center;text-align:center}
+  .cs-name{font-size:clamp(3rem,10vw,5rem)}
+  .cs-desc{max-width:100%;font-size:.9rem}
+  .cs-price-row{justify-content:center}
+  .cs-rating-row{justify-content:center}
+  .cs-order-btn{align-self:center}
+  .cs-right{height:300px}
+  .cs-img-wrap{width:240px;height:240px}
+  .cs-glow{width:240px;height:240px}
+  .cs-ring-1{width:280px;height:280px}
+  .cs-ring-2{width:340px;height:340px}
+  .cs-bg-text{font-size:clamp(60px,15vw,120px)}
+  .cs-selector{padding:.75rem 1.5rem 1.25rem;gap:6px}
+  .cs-thumb{padding:6px 8px}
+  .cs-thumb-img{width:44px;height:44px}
+
+  /* DRINKS GRID */
+  .drinks-grid{grid-template-columns:1fr 1fr;gap:1rem}
+
+  /* STATS */
+  .stats-section{padding:3.5rem 1.5rem}
+  .stats-grid{grid-template-columns:repeat(2,1fr);gap:1.5rem}
+
+  /* GALLERY PREVIEW */
+  .gallery-preview{
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:200px 200px 200px;
+  }
+  .gallery-preview .gp-item:first-child{grid-row:auto;grid-column:span 2}
+
+  /* MAGGI */
+  .maggi-section{padding:4rem 1.5rem}
+  .maggi-section::before{font-size:6rem;right:-1rem}
+  .maggi-grid{grid-template-columns:1fr;gap:2.5rem;margin-top:2.5rem}
+  .maggi-photos{order:-1}
+
+  /* WHY US */
+  .why-grid{grid-template-columns:1fr;gap:1rem;margin-top:2.5rem}
+
+  /* SPECIALS */
+  .specials-grid{grid-template-columns:1fr;gap:1rem;margin-top:2rem}
+
+  /* TESTIMONIALS */
+  .testimonials-section{padding:4rem 1.5rem}
+  .test-grid{grid-template-columns:1fr;gap:1rem;margin-top:2.5rem}
+
+  /* LATE NIGHT */
+  .late-night{height:auto;min-height:60vh}
+  .late-night-overlay{background:linear-gradient(to bottom,rgba(28,18,13,0.95) 0%,rgba(28,18,13,0.85) 100%)}
+  .late-night-content{padding:4rem 1.5rem;max-width:100%}
+
+  /* NIGHT SECTION */
+  .night-section{height:auto;min-height:60vh;padding:4rem 0}
+  .night-content{padding:0 1.5rem;max-width:100%}
+
+  /* ABOUT */
+  .about-story{padding:4rem 1.5rem}
+  .story-split{grid-template-columns:1fr;gap:2rem;margin-bottom:4rem}
+  .story-split.reverse{direction:ltr}
+  .story-split.reverse>*{direction:ltr}
+  .story-img{aspect-ratio:16/9}
+  .founders-section{padding:4rem 1.5rem}
+  .founders-grid{grid-template-columns:1fr 1fr;gap:2rem;max-width:100%;margin-top:2.5rem}
+  .founder-img{width:140px;height:140px}
+
+  /* MENU */
+  .menu-header{padding:8rem 1.5rem 3rem;text-align:center}
+  .menu-section{padding:0 1.5rem 3rem}
+  .filter-tabs{gap:.5rem}
+  .filter-btn{padding:.5rem 1rem;font-size:.7rem}
+  .menu-grid{grid-template-columns:1fr 1fr;gap:1rem}
+
+  /* EXPERIENCE */
+  .exp-chapter{grid-template-columns:1fr;padding:4rem 1.5rem;gap:2rem}
+  .exp-chapter.alt .exp-chapter-img{order:0}
+  .exp-chapter-img{aspect-ratio:16/9}
+  .fullwidth-quote{padding:4rem 1.5rem}
+  .fq-text{font-size:clamp(1.2rem,4vw,2rem)}
+
+  /* CONTACT */
+  .contact-hero{grid-template-columns:1fr;padding:8rem 1.5rem 3rem;gap:2.5rem}
+  .map-wrap{height:220px}
+
+  /* GALLERY PAGE */
+  .gallery-header{padding:8rem 1.5rem 3rem}
+  .masonry{columns:2;padding:0 1.5rem 3rem}
+
+  /* FOOTER */
+  footer{padding:3.5rem 1.5rem 1.5rem}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:2.5rem;margin-bottom:2.5rem}
+  .footer-bottom{flex-direction:column;gap:.75rem;text-align:center;padding-top:1.5rem}
+}
+
+/* ===================== RESPONSIVE — MOBILE (≤600px) ===================== */
+@media(max-width:600px){
+  /* NAV */
+  nav{padding:.9rem 1.2rem}
+  nav.scrolled{padding:.75rem 1.2rem}
+  .nav-logo{font-size:1.35rem}
+  .mobile-menu a{font-size:1.6rem}
+
+  /* GENERAL */
+  section{padding:3.5rem 1.2rem}
+  .section-label{font-size:.65rem;letter-spacing:.25em}
+  .section-title{font-size:clamp(1.8rem,8vw,2.6rem);margin-bottom:1rem}
+  .section-body{font-size:.92rem;max-width:100%}
+  .btn-primary,.btn-ghost{padding:.7rem 1.6rem;font-size:.75rem;width:100%;text-align:center}
+  .hero-btns{flex-direction:column;align-items:center;gap:.6rem}
+  .divider{margin:1.2rem 0}
+
+  /* HERO */
+  .hero-title{font-size:clamp(3rem,14vw,4.5rem)}
+  .hero-eyebrow{font-size:.65rem;letter-spacing:.25em}
+  .hero-tagline{font-size:.75rem;letter-spacing:.15em;margin-bottom:2rem}
+  .hero-scroll{bottom:2rem}
+  .scroll-line{height:40px}
+
+  /* MARQUEE */
+  .marquee-track{gap:2rem}
+  .marquee-track span{font-size:.68rem}
+
+  /* COFFEE SHOWCASE */
+  .cs-inner{padding:4.5rem 1.2rem .5rem;gap:1.5rem}
+  .cs-left{gap:1rem}
+  .cs-eyebrow{font-size:.65rem}
+  .cs-label{font-size:.65rem;padding:.3rem .75rem}
+  .cs-name{font-size:clamp(2.4rem,10vw,3.5rem)}
+  .cs-desc{font-size:.85rem;line-height:1.7}
+  .cs-price{font-size:2rem}
+  .cs-price-label{font-size:.7rem}
+  .cs-rating-num{font-size:1.6rem}
+  .cs-right{height:260px}
+  .cs-img-wrap{width:200px;height:200px}
+  .cs-glow{width:200px;height:200px}
+  .cs-ring-1{width:240px;height:240px}
+  .cs-ring-2{width:290px;height:290px}
+  .cs-selector{padding:.6rem 1rem 1rem;gap:4px;justify-content:center}
+  .cs-thumb{padding:5px 6px}
+  .cs-thumb-img{width:38px;height:38px}
+  .cs-thumb-name{font-size:8px;letter-spacing:1px}
+
+  /* DRINKS */
+  .drinks-grid{grid-template-columns:1fr;gap:.8rem;margin-top:2rem}
+  .drink-card{aspect-ratio:4/3}
+  .drink-name{font-size:1.25rem}
+
+  /* STATS */
+  .stats-section{padding:2.5rem 1.2rem}
+  .stats-grid{grid-template-columns:repeat(2,1fr);gap:1rem}
+  .stat-num{font-size:clamp(2rem,8vw,3rem)}
+  .stat-label{font-size:.65rem;letter-spacing:.1em}
+
+  /* GALLERY PREVIEW */
+  .gallery-preview{
+    grid-template-columns:1fr;
+    grid-template-rows:auto;
+    gap:.6rem;
+    margin-top:1.5rem;
+  }
+  .gallery-preview .gp-item{height:200px}
+  .gallery-preview .gp-item:first-child{grid-column:auto;height:240px}
+
+  /* MAGGI */
+  .maggi-section{padding:3.5rem 1.2rem}
+  .maggi-section::before{display:none}
+  .maggi-grid{margin-top:2rem;gap:2rem}
+  .maggi-photos{grid-template-columns:1fr}
+  .maggi-photo{aspect-ratio:16/9}
+  .maggi-photo:first-child{aspect-ratio:16/9;grid-column:auto}
+  .maggi-items{gap:.5rem;margin-top:1rem}
+  .maggi-tag{padding:.4rem .9rem;font-size:.7rem}
+
+  /* WHY US */
+  .why-grid{margin-top:2rem}
+  .why-card{padding:1.5rem}
+  .why-num{font-size:2.2rem;margin-bottom:1rem}
+  .why-title{font-size:1.1rem}
+  .why-text{font-size:.85rem}
+
+  /* SPECIALS */
+  .specials-grid{margin-top:1.5rem}
+  .special-card{aspect-ratio:4/3}
+  .special-content{padding:1.5rem}
+  .special-name{font-size:1.5rem}
+  .special-desc{font-size:.8rem}
+
+  /* TESTIMONIALS */
+  .testimonials-section{padding:3rem 1.2rem}
+  .test-card{padding:1.5rem}
+  .test-quote{font-size:.92rem}
+  .test-name{font-size:.72rem}
+
+  /* LATE NIGHT */
+  .late-night{min-height:auto;height:auto}
+  .late-night-content{padding:3rem 1.2rem}
+  .late-items{gap:.5rem;margin-top:1.2rem}
+  .late-item{padding:.4rem .9rem;font-size:.7rem}
+
+  /* NIGHT SECTION */
+  .night-content{padding:0 1.2rem}
+  .night-title{font-size:clamp(2rem,9vw,3rem)}
+
+  /* ABOUT */
+  .about-story{padding:3rem 1.2rem}
+  .story-split{margin-bottom:2.5rem}
+  .founders-grid{grid-template-columns:1fr;gap:2rem;max-width:280px;margin:2rem auto 0}
+  .founder-img{width:160px;height:160px}
+  .founder-name{font-size:1.25rem}
+  .founders-section{padding:3rem 1.2rem}
+
+  /* MENU */
+  .menu-header{padding:7rem 1.2rem 2rem}
+  .menu-section{padding:0 1.2rem 2.5rem}
+  .menu-grid{grid-template-columns:1fr;gap:.8rem}
+  .menu-category{margin-bottom:3rem}
+  .cat-title{font-size:1.5rem;margin-bottom:1.2rem}
+  .filter-tabs{gap:.4rem;margin-top:1.5rem;justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding-bottom:.5rem;-webkit-overflow-scrolling:touch}
+  .filter-btn{white-space:nowrap;flex-shrink:0;padding:.5rem .9rem;font-size:.68rem}
+  .menu-card-img{height:160px}
+  .menu-card-body{padding:1rem}
+  .menu-card-name{font-size:1rem}
+  .menu-card-desc{font-size:.78rem}
+
+  /* EXPERIENCE */
+  .exp-chapter{padding:3rem 1.2rem;gap:1.5rem}
+  .chapter-num{font-size:4rem}
+  .chapter-title{font-size:clamp(1.5rem,6vw,2rem)}
+  .fullwidth-quote{padding:3rem 1.2rem}
+  .fq-text{font-size:clamp(1.1rem,5vw,1.5rem);line-height:1.6}
+
+  /* CONTACT */
+  .contact-hero{padding:6.5rem 1.2rem 2.5rem;gap:2rem}
+  .contact-form-wrap{padding:1.5rem}
+  .info-card{padding:1.2rem}
+  .map-wrap{height:200px}
+  .form-input{padding:.75rem 1rem;font-size:.85rem}
+
+  /* GALLERY PAGE */
+  .gallery-header{padding:6.5rem 1.2rem 2rem}
+  .masonry{columns:1;padding:0 1.2rem 2.5rem}
+
+  /* FOOTER */
+  footer{padding:3rem 1.2rem 1.2rem}
+  .footer-grid{grid-template-columns:1fr;gap:2rem;margin-bottom:2rem}
+  .footer-logo{font-size:1.6rem}
+  .footer-bottom{padding-top:1.2rem;gap:.5rem}
+  .footer-copy{font-size:.72rem}
+
+  /* LOADER */
+  .loader-logo{font-size:2.2rem}
+  .loader-bar{width:150px}
+}
+</style>
+</head>
+<body>
+
+<div class="loader" id="loader">
+  <div class="loader-logo">Bean There</div>
+  <div class="loader-bar"><div class="loader-fill"></div></div>
+</div>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<nav id="navbar">
+  <div class="nav-logo" onclick="showPage('home')">Bean There</div>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')">Home</a></li>
+    <li><a onclick="showPage('about')">About</a></li>
+    <li><a onclick="showPage('menu')">Menu</a></li>
+    <li><a onclick="showPage('gallery')">Gallery</a></li>
+    <li><a onclick="showPage('experience')">Experience</a></li>
+    <li><a onclick="showPage('contact')">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="showPage('contact')">Reserve a Table</button>
+  <div class="hamburger" id="hamburger" onclick="toggleMobile()"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="toggleMobile()">✕</button>
+  <a onclick="showPage('home');toggleMobile()">Home</a>
+  <a onclick="showPage('about');toggleMobile()">About</a>
+  <a onclick="showPage('menu');toggleMobile()">Menu</a>
+  <a onclick="showPage('gallery');toggleMobile()">Gallery</a>
+  <a onclick="showPage('experience');toggleMobile()">Experience</a>
+  <a onclick="showPage('contact');toggleMobile()">Contact</a>
+</div>
+
+<!-- ==================== HOME PAGE ==================== -->
+<div id="page-home" class="page active">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <span class="hero-eyebrow">Gachibowli, Hyderabad</span>
+      <h1 class="hero-title">Bean<br><span>There</span></h1>
+      <p class="hero-tagline">Bold Brews &nbsp;•&nbsp; Chill Vibes</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('menu')">Explore Menu</button>
+        <button class="btn-ghost" onclick="showPage('contact')">Visit Cafe</button>
+      </div>
+    </div>
+    <div class="hero-scroll"><div class="scroll-line"></div><span class="scroll-text">Scroll</span></div>
+  </div>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span>Bold Brews</span><span class="dot">—</span><span>Chill Vibes</span><span class="dot">—</span><span>Open Daily Until 12:30 AM</span><span class="dot">—</span><span>Gachibowli Hyderabad</span><span class="dot">—</span><span>Signature Coffees</span><span class="dot">—</span><span>Maggi • Fries • Mocktails</span><span class="dot">—</span><span>Late Night Vibes</span><span class="dot">—</span>
+      <span>Bold Brews</span><span class="dot">—</span><span>Chill Vibes</span><span class="dot">—</span><span>Open Daily Until 12:30 AM</span><span class="dot">—</span><span>Gachibowli Hyderabad</span><span class="dot">—</span><span>Signature Coffees</span><span class="dot">—</span><span>Maggi • Fries • Mocktails</span><span class="dot">—</span><span>Late Night Vibes</span><span class="dot">—</span>
+    </div>
+  </div>
+
+  <!-- ==================== COFFEE SHOWCASE SECTION ==================== -->
+  <div id="coffee-showcase">
+    <div class="cs-bg" id="cs-bg"></div>
+    <div class="cs-inner">
+      <!-- LEFT -->
+      <div class="cs-left" id="cs-left">
+        <span class="cs-eyebrow">Our Specialty</span>
+        <div>
+          <div class="cs-label" id="cs-label"></div>
+          <h2 class="cs-name" id="cs-name"></h2>
+        </div>
+        <p class="cs-desc" id="cs-desc"></p>
+        <div class="cs-price-row">
+          <div class="cs-price" id="cs-price"></div>
+          <div class="cs-price-label">Starting Price</div>
+        </div>
+        <div class="cs-rating-row">
+          <div class="cs-rating-num" id="cs-rating-num"></div>
+          <div>
+            <div class="cs-stars" id="cs-stars"></div>
+            <div class="cs-reviews" id="cs-reviews"></div>
+          </div>
+        </div>
+        <button class="cs-order-btn" onclick="showPage('menu')">Order Now →</button>
+      </div>
+      <!-- RIGHT -->
+      <div class="cs-right">
+        <div class="cs-bg-text" id="cs-bg-text"></div>
+        <div class="cs-glow" id="cs-glow"></div>
+        <div class="cs-ring cs-ring-1"></div>
+        <div class="cs-ring cs-ring-2"></div>
+        <div class="cs-img-wrap hidden" id="cs-img-wrap">
+          <img id="cs-img" src="" alt="">
+          <div class="cs-vignette"></div>
+        </div>
+        <!-- Floating beans -->
+        <div class="cs-bean" style="width:58px;height:58px;top:8%;right:8%;animation-duration:6.2s;animation-delay:0s"><img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=120&q=70&fit=crop" alt="" style="width:100%;height:100%;object-fit:cover"></div>
+        <div class="cs-bean" style="width:40px;height:40px;top:22%;right:4%;animation-duration:7.8s;animation-delay:1.2s"><img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=120&q=70&fit=crop" alt="" style="width:100%;height:100%;object-fit:cover"></div>
+        <div class="cs-bean" style="width:46px;height:46px;bottom:28%;left:2%;animation-duration:5.5s;animation-delay:0.6s"><img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=120&q=70&fit=crop" alt="" style="width:100%;height:100%;object-fit:cover"></div>
+        <div class="cs-bean" style="width:32px;height:32px;bottom:10%;left:10%;animation-duration:8.4s;animation-delay:2.1s"><img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=120&q=70&fit=crop" alt="" style="width:100%;height:100%;object-fit:cover"></div>
+        <div class="cs-bean" style="width:24px;height:24px;top:60%;right:2%;animation-duration:6.9s;animation-delay:0.9s"><img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=120&q=70&fit=crop" alt="" style="width:100%;height:100%;object-fit:cover"></div>
+      </div>
+    </div>
+    <!-- SELECTOR BAR -->
+    <div class="cs-selector" id="cs-selector"></div>
+  </div>
+
+  <!-- SIGNATURE DRINKS -->
+  <section>
+    <span class="section-label">Our Specialty</span>
+    <h2 class="section-title">Crafted for the<br><em>Bold & the Curious</em></h2>
+    <div class="drinks-grid">
+      <div class="drink-card">
+        <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&q=80" alt="Cold Brew" loading="lazy">
+        <div class="drink-card-overlay"></div>
+        <div class="drink-card-content">
+          <span class="drink-tag">Cold Coffee</span>
+          <div class="drink-name">Cold Brew</div>
+          <div class="drink-price">Starting ₹149</div>
+        </div>
+      </div>
+      <div class="drink-card">
+        <img src="https://images.unsplash.com/photo-1534040385115-33dcb3acba5b?w=600&q=80" alt="Cappuccino" loading="lazy">
+        <div class="drink-card-overlay"></div>
+        <div class="drink-card-content">
+          <span class="drink-tag">Hot Coffee</span>
+          <div class="drink-name">Cappuccino</div>
+          <div class="drink-price">Starting ₹129</div>
+        </div>
+      </div>
+      <div class="drink-card">
+        <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=600&q=80" alt="Caramel Frappe" loading="lazy">
+        <div class="drink-card-overlay"></div>
+        <div class="drink-card-content">
+          <span class="drink-tag">Signature</span>
+          <div class="drink-name">Caramel Frappe</div>
+          <div class="drink-price">Starting ₹169</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-section">
+    <div class="stats-grid">
+      <div><div class="stat-num">5000+</div><div class="stat-label">Happy Customers</div></div>
+      <div><div class="stat-num">50+</div><div class="stat-label">Menu Items</div></div>
+      <div><div class="stat-num">12:30</div><div class="stat-label">Open Until (AM)</div></div>
+      <div><div class="stat-num">4.8</div><div class="stat-label">Average Rating</div></div>
+    </div>
+  </div>
+
+  <!-- GALLERY PREVIEW -->
+  <section>
+    <span class="section-label">The Atmosphere</span>
+    <h2 class="section-title">Where Every Corner<br><em>Tells a Story</em></h2>
+    <div class="gallery-preview">
+      <div class="gp-item" onclick="openLightbox('https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1200&q=90')">
+        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80" alt="Cafe Interior" loading="lazy">
+      </div>
+      <div class="gp-item" onclick="openLightbox('https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=90')">
+        <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&q=80" alt="Coffee" loading="lazy">
+      </div>
+      <div class="gp-item" onclick="openLightbox('https://images.unsplash.com/photo-1606791405792-1004f1718d0c?w=800&q=90')">
+        <img src="https://images.unsplash.com/photo-1606791405792-1004f1718d0c?w=400&q=80" alt="Indian Cafe" loading="lazy">
+      </div>
+      <div class="gp-item" onclick="openLightbox('https://images.unsplash.com/photo-1585032226651-759b368d7246?w=800&q=90')">
+        <img src="https://images.unsplash.com/photo-1585032226651-759b368d7246?w=400&q=80" alt="Masala Chai" loading="lazy">
+      </div>
+      <div class="gp-item" onclick="openLightbox('https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=800&q=90')">
+        <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400&q=80" alt="Coffee Art" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- MAGGI & INDIAN BITES SECTION -->
+  <div class="maggi-section">
+    <span class="section-label">Indian Street Flavours</span>
+    <h2 class="section-title" style="max-width:600px">Maggi, Chai &<br><em>Midnight Bites</em></h2>
+    <div class="maggi-grid">
+      <div>
+        <p class="section-body" style="margin-bottom:2rem">Late night cravings sorted. Our kitchen runs till 12:30 AM — Masala Maggi, Loaded Fries, Vada Pav, and more. Real Indian comfort food, made fresh, every night.</p>
+        <div class="maggi-items">
+          <span class="maggi-tag">Masala Maggi</span>
+          <span class="maggi-tag">Cheese Maggi</span>
+          <span class="maggi-tag">Veg Maggi</span>
+          <span class="maggi-tag">Masala Chai</span>
+          <span class="maggi-tag">Vada Pav</span>
+          <span class="maggi-tag">Samosa</span>
+          <span class="maggi-tag">Pav Bhaji</span>
+          <span class="maggi-tag">Loaded Fries</span>
+        </div>
+        <br>
+        <button class="btn-primary" onclick="showPage('menu')" style="margin-top:1.5rem">View Full Menu</button>
+      </div>
+      <div class="maggi-photos">
+        <div class="maggi-photo" onclick="openLightbox('https://images.unsplash.com/photo-1585032226651-759b368d7246?w=1200&q=90')">
+          <img src="https://images.unsplash.com/photo-1585032226651-759b368d7246?w=700&q=80" alt="Masala Chai" loading="lazy">
+        </div>
+        <div class="maggi-photo" onclick="openLightbox('https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=1200&q=90')">
+          <img src="https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=400&q=80" alt="Indian snacks" loading="lazy">
+        </div>
+        <div class="maggi-photo" onclick="openLightbox('https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=1200&q=90')">
+          <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&q=80" alt="Street food" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHY US -->
+  <section style="background:#2B1D16">
+    <span class="section-label">Why Bean There</span>
+    <h2 class="section-title">More Than Coffee,<br><em>It's a Feeling</em></h2>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-num">01</div>
+        <div class="why-title">Craft in Every Cup</div>
+        <div class="why-text">From single-origin beans to our signature blends, each cup is brewed with precision and passion. No shortcuts, no compromise.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-num">02</div>
+        <div class="why-title">The Vibe is Everything</div>
+        <div class="why-text">Designed as a refuge from the rush — warm light, ambient sound, and seats made for lingering. Your third place, always.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-num">03</div>
+        <div class="why-title">Open Until You Are</div>
+        <div class="why-text">Night owls welcome. Whether it's midnight deadlines or late conversations, we stay open until 12:30 AM — every day.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIGNATURE SPECIALS -->
+  <section>
+    <span class="section-label">Featured Today</span>
+    <h2 class="section-title">Signature<br><em>Specials</em></h2>
+    <div class="specials-grid">
+      <div class="special-card">
+        <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=800&q=80" alt="Iced Latte" loading="lazy">
+        <div class="special-overlay"></div>
+        <div class="special-content">
+          <div class="special-tag">Cold Coffee</div>
+          <div class="special-name">Iced Latte</div>
+          <div class="special-desc">Rich espresso over ice, swirled with velvety milk and a hint of vanilla.</div>
+        </div>
+      </div>
+      <div class="special-card">
+        <img src="https://images.unsplash.com/photo-1585032226651-759b368d7246?w=800&q=80" alt="Masala Chai" loading="lazy">
+        <div class="special-overlay"></div>
+        <div class="special-content">
+          <div class="special-tag">Indian Special</div>
+          <div class="special-name">Masala Chai</div>
+          <div class="special-desc">Simmered with ginger, cardamom, and whole spices — the most comforting cup in the city.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <div class="testimonials-section">
+    <div style="text-align:center;max-width:600px;margin:0 auto">
+      <span class="section-label">What People Say</span>
+      <h2 class="section-title">Voices from<br><em>the Community</em></h2>
+    </div>
+    <div class="test-grid">
+      <div class="test-card">
+        <div class="test-stars">★★★★★</div>
+        <div class="test-quote">"The cold brew here is absolutely unmatched. I come every single evening after college. The ambience just hits different."</div>
+        <div class="test-name">Arjun Mehta, Hyderabad</div>
+      </div>
+      <div class="test-card">
+        <div class="test-stars">★★★★★</div>
+        <div class="test-quote">"Best cafe in Gachibowli. Period. The late night vibe, the Cheese Maggi, the music — it's everything you need after a long day."</div>
+        <div class="test-name">Priya Reddy, Hyderabad</div>
+      </div>
+      <div class="test-card">
+        <div class="test-stars">★★★★★</div>
+        <div class="test-quote">"Kumar and Shaker have built something truly special. It doesn't feel like a regular cafe — it feels like a home away from home."</div>
+        <div class="test-name">Vikram Nair, Bangalore</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LATE NIGHT -->
+  <div class="late-night">
+    <div class="late-night-bg"></div>
+    <div class="late-night-overlay"></div>
+    <div class="late-night-content">
+      <span class="section-label">The Night Belongs to You</span>
+      <h2 class="section-title" style="max-width:500px">Late Nights<br><em>are Better Here</em></h2>
+      <p class="section-body" style="margin-bottom:2rem">When the rest of the city sleeps, Bean There comes alive. Whether you are grinding through code, catching up with a friend, or just watching the world outside — we are here until 12:30 AM.</p>
+      <div class="late-items">
+        <span class="late-item">Coffee</span>
+        <span class="late-item">Maggi</span>
+        <span class="late-item">Fries</span>
+        <span class="late-item">Mocktails</span>
+        <span class="late-item">Good Music</span>
+        <span class="late-item">Great Conversations</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- NIGHT CTA -->
+  <div class="night-section">
+    <div class="night-bg"></div>
+    <div class="night-overlay"></div>
+    <div class="night-content">
+      <span class="section-label">Open Daily</span>
+      <h2 class="night-title">We Close When<br><em>You're Ready</em></h2>
+      <p class="section-body" style="margin-bottom:2rem">Open every day until 12:30 AM. Find us at APHB Phase-IV, Gachibowli, Hyderabad.</p>
+      <button class="btn-primary" onclick="showPage('contact')">Get Directions</button>
+    </div>
+  </div>
+
+</div><!-- /page-home -->
+
+<!-- ==================== MENU PAGE ==================== -->
+<div id="page-menu" class="page">
+  <div class="menu-header">
+    <span class="section-label">What We Serve</span>
+    <h1 class="section-title">The Bean There<br><em>Menu</em></h1>
+    <div class="filter-tabs">
+      <button class="filter-btn active" onclick="filterMenu('all',this)">All</button>
+      <button class="filter-btn" onclick="filterMenu('coffee',this)">Coffee</button>
+      <button class="filter-btn" onclick="filterMenu('food',this)">Food</button>
+      <button class="filter-btn" onclick="filterMenu('mocktails',this)">Mocktails</button>
+      <button class="filter-btn" onclick="filterMenu('desserts',this)">Desserts</button>
+    </div>
+  </div>
+  <div class="menu-section">
+    <div class="menu-category" data-cat="coffee">
+      <div class="cat-title">Coffees</div>
+      <div class="menu-grid">
+        <div class="menu-card">
+          <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=400&q=80" alt="Espresso" loading="lazy"></div>
+          <div class="menu-card-body">
+            <div class="menu-card-name">Espresso</div>
+            <div class="menu-card-desc">Single origin, bold and clean. The purist's choice.</div>
+            <div class="menu-card-footer"><div class="menu-price">₹99</div><div class="menu-badge">Classic</div></div>
+          </div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1534040385115-33dcb3acba5b?w=400&q=80" alt="Cappuccino" loading="lazy"></div>
+          <div class="menu-card-body">
+            <div class="menu-card-name">Cappuccino</div>
+            <div class="menu-card-desc">Velvety microfoam, rich espresso, perfect balance.</div>
+            <div class="menu-card-footer"><div class="menu-price">₹129</div><div class="menu-badge">Hot</div></div>
+          </div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1577968897966-3d4325b36b61?w=400&q=80" alt="Flat White" loading="lazy"></div>
+          <div class="menu-card-body">
+            <div class="menu-card-name">Flat White</div>
+            <div class="menu-card-desc">House favourite. Double ristretto with silky microfoam.</div>
+            <div class="menu-card-footer"><div class="menu-price">₹139</div><div class="menu-badge">Favourite</div></div>
+          </div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&q=80" alt="Cold Brew" loading="lazy"></div>
+          <div class="menu-card-body">
+            <div class="menu-card-name">Cold Brew</div>
+            <div class="menu-card-desc">18-hour cold steeped for a smooth, bold finish.</div>
+            <div class="menu-card-footer"><div class="menu-price">₹149</div><div class="menu-badge">Cold</div></div>
+          </div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400&q=80" alt="Caramel Frappe" loading="lazy"></div>
+          <div class="menu-card-body">
+            <div class="menu-card-name">Caramel Frappe</div>
+            <div class="menu-card-desc">Blended ice, espresso and caramel — summer in a cup.</div>
+            <div class="menu-card-footer"><div class="menu-price">₹169</div><div class="menu-badge">Signature</div></div>
+          </div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1585032226651-759b368d7246?w=400&q=80" alt="Masala Chai" loading="lazy"></div>
+          <div class="menu-card-body">
+            <div class="menu-card-name">Masala Chai</div>
+            <div class="menu-card-desc">Cardamom, ginger, cinnamon — India's finest brew.</div>
+            <div class="menu-card-footer"><div class="menu-price">₹89</div><div class="menu-badge">Indian</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="menu-category" data-cat="food">
+      <div class="cat-title">Food & Bites</div>
+      <div class="menu-grid">
+        <div class="menu-card">
+          <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1606791405792-1004f1718d0c?w=400&q=80" alt="Cheese Maggi" loading="lazy"></div>
+          <div class="menu-card-body">
+            <div class="menu-card-name">Cheese Maggi</div>
+            <div class="menu-card-desc">The legend. Loaded with cheese and desi spices.</div>
+            <div class="menu-card-footer"><div class="menu-price">₹99</div><div class="menu-badge">Star Item</div></div>
+          </div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&q=80" alt="Veg Sandwich" loading="lazy"></div>
+          <div class="menu-card-body">
+            <div class="menu-card-name">Loaded Sandwich</div>
+            <div class="menu-card-desc">Grilled, loaded, and ready for your late-night hunger.</div>
+            <div class="menu-card-footer"><div class="menu-price">₹129</div><div class="menu-badge">Popular</div></div>
+          </div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=400&q=80" alt="Samosa" loading="lazy"></div>
+          <div class="menu-card-body">
+            <div class="menu-card-name">Samosa Plate</div>
+            <div class="menu-card-desc">Crispy, hot samosas with mint chutney. Always fresh.</div>
+            <div class="menu-card-footer"><div class="menu-price">₹69</div><div class="menu-badge">Indian</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="menu-category" data-cat="mocktails">
+      <div class="cat-title">Mocktails</div>
+      <div class="menu-grid">
+        <div class="menu-card">
+          <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1560472355-536de3962603?w=400&q=80" alt="Mojito" loading="lazy"></div>
+          <div class="menu-card-body">
+            <div class="menu-card-name">Virgin Mojito</div>
+            <div class="menu-card-desc">Lime, mint, soda — the ultimate refresher.</div>
+            <div class="menu-card-footer"><div class="menu-price">₹129</div><div class="menu-badge">Refreshing</div></div>
+          </div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=400&q=80" alt="Berry Blast" loading="lazy"></div>
+          <div class="menu-card-body">
+            <div class="menu-card-name">Berry Blast</div>
+            <div class="menu-card-desc">Mixed berry, soda and fresh lime. Pure summer vibes.</div>
+            <div class="menu-card-footer"><div class="menu-price">₹149</div><div class="menu-badge">Fruity</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="menu-category" data-cat="desserts">
+      <div class="cat-title">Desserts</div>
+      <div class="menu-grid">
+        <div class="menu-card">
+          <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1484723091739-30990ca74e31?w=400&q=80" alt="Belgian Waffles" loading="lazy"></div>
+          <div class="menu-card-body">
+            <div class="menu-card-name">Belgian Waffles</div>
+            <div class="menu-card-desc">Golden, crisp outside, cloud-soft inside with berry compote.</div>
+            <div class="menu-card-footer"><div class="menu-price">₹199</div><div class="menu-badge">Sweet</div></div>
+          </div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&q=80" alt="Brownie" loading="lazy"></div>
+          <div class="menu-card-body">
+            <div class="menu-card-name">Fudge Brownie</div>
+            <div class="menu-card-desc">Dense, fudgy and served warm. Pairs with cold brew perfectly.</div>
+            <div class="menu-card-footer"><div class="menu-price">₹149</div><div class="menu-badge">Indulgent</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== ABOUT PAGE ==================== -->
+<div id="page-about" class="page">
+  <div class="about-hero">
+    <div class="about-bg"></div>
+    <div class="about-overlay"></div>
+    <div class="about-hero-content">
+      <span class="section-label">Our Story</span>
+      <h1 class="section-title">Born in Gachibowli,<br><em>Brewed with Love</em></h1>
+    </div>
+  </div>
+  <div class="about-story">
+    <div class="story-split">
+      <div class="story-img"><img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=80" alt="Coffee" loading="lazy"></div>
+      <div>
+        <span class="section-label">The Beginning</span>
+        <h2 class="section-title">A Dream<br><em>over Coffee</em></h2>
+        <div class="divider"></div>
+        <p class="section-body">It started with a simple idea — a cafe that stays open when the rest of the world closes. Kumar and Shaker, two friends with a shared love for great coffee and good company, opened Bean There to be that place. A refuge. A community. A home away from home.</p>
+      </div>
+    </div>
+    <div class="story-split reverse">
+      <div class="story-img"><img src="https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=600&q=80" alt="Cafe Interior" loading="lazy"></div>
+      <div>
+        <span class="section-label">The Philosophy</span>
+        <h2 class="section-title">More Than<br><em>Just a Cafe</em></h2>
+        <div class="divider"></div>
+        <p class="section-body">We believe a great cafe is one that makes you feel welcome at any hour. From morning chai to midnight cold brew — Bean There is open for it all. Every cup is brewed with care, every corner is lit with warmth.</p>
+      </div>
+    </div>
+  </div>
+  <div class="founders-section">
+    <span class="section-label">The Founders</span>
+    <h2 class="section-title">Meet the<br><em>Minds Behind</em></h2>
+    <div class="founders-grid">
+      <div class="founder-card">
+        <div class="founder-img"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="Kumar" loading="lazy"></div>
+        <div class="founder-name">Kumar</div>
+        <div class="founder-role">Co-Founder & Head Barista</div>
+      </div>
+      <div class="founder-card">
+        <div class="founder-img"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80" alt="Shaker" loading="lazy"></div>
+        <div class="founder-name">Shaker</div>
+        <div class="founder-role">Co-Founder & Creative Director</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== GALLERY PAGE ==================== -->
+<div id="page-gallery" class="page">
+  <div class="gallery-header">
+    <span class="section-label">Our World</span>
+    <h1 class="section-title">Glimpses of<br><em>Bean There</em></h1>
+  </div>
+  <div class="masonry">
+    <div class="masonry-item" onclick="openLightbox('https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1200&q=90')"><img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=500&q=80" alt="Cafe" loading="lazy"></div>
+    <div class="masonry-item" onclick="openLightbox('https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1200&q=90')"><img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=500&q=80" alt="Coffee" loading="lazy"></div>
+    <div class="masonry-item" onclick="openLightbox('https://images.unsplash.com/photo-1585032226651-759b368d7246?w=1200&q=90')"><img src="https://images.unsplash.com/photo-1585032226651-759b368d7246?w=500&q=80" alt="Masala Chai" loading="lazy"></div>
+    <div class="masonry-item" onclick="openLightbox('https://images.unsplash.com/photo-1534040385115-33dcb3acba5b?w=1200&q=90')"><img src="https://images.unsplash.com/photo-1534040385115-33dcb3acba5b?w=500&q=80" alt="Latte" loading="lazy"></div>
+    <div class="masonry-item" onclick="openLightbox('https://images.unsplash.com/photo-1606791405792-1004f1718d0c?w=1200&q=90')"><img src="https://images.unsplash.com/photo-1606791405792-1004f1718d0c?w=500&q=80" alt="Indian Cafe" loading="lazy"></div>
+    <div class="masonry-item" onclick="openLightbox('https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=1200&q=90')"><img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=500&q=80" alt="Frappe" loading="lazy"></div>
+    <div class="masonry-item" onclick="openLightbox('https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=1200&q=90')"><img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=500&q=80" alt="Cold Brew" loading="lazy"></div>
+    <div class="masonry-item" onclick="openLightbox('https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=1200&q=90')"><img src="https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=500&q=80" alt="Samosa" loading="lazy"></div>
+    <div class="masonry-item" onclick="openLightbox('https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=1200&q=90')"><img src="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=500&q=80" alt="Espresso" loading="lazy"></div>
+    <div class="masonry-item" onclick="openLightbox('https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=1200&q=90')"><img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=500&q=80" alt="Food" loading="lazy"></div>
+    <div class="masonry-item" onclick="openLightbox('https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=1200&q=90')"><img src="https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=500&q=80" alt="Night Vibes" loading="lazy"></div>
+    <div class="masonry-item" onclick="openLightbox('https://images.unsplash.com/photo-1484723091739-30990ca74e31?w=1200&q=90')"><img src="https://images.unsplash.com/photo-1484723091739-30990ca74e31?w=500&q=80" alt="Waffles" loading="lazy"></div>
+  </div>
+</div>
+
+<!-- ==================== EXPERIENCE PAGE ==================== -->
+<div id="page-experience" class="page">
+  <div class="exp-hero">
+    <div class="exp-bg"></div>
+    <div class="exp-overlay"></div>
+    <div class="exp-content">
+      <span class="section-label">The Bean There Experience</span>
+      <p class="exp-quote">"We didn't build a cafe. We built a feeling — one cup, one conversation, one late night at a time."</p>
+      <p style="font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(214,180,138,0.5)">Kumar & Shaker, Founders</p>
+    </div>
+  </div>
+  <div class="exp-chapter">
+    <div>
+      <div class="chapter-num">01</div>
+      <h2 class="chapter-title">The Morning Ritual</h2>
+      <p class="chapter-body">Every great day begins with a great cup. Our baristas start before dawn, dialling in the perfect espresso. When you walk in for your first coffee, the world hasn't quite started yet — and that's the point.</p>
+    </div>
+    <div class="exp-chapter-img"><img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=80" alt="Morning Coffee" loading="lazy"></div>
+  </div>
+  <div class="exp-chapter alt">
+    <div class="exp-chapter-img"><img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80" alt="Afternoon Vibes" loading="lazy"></div>
+    <div>
+      <div class="chapter-num">02</div>
+      <h2 class="chapter-title">The Afternoon Refuge</h2>
+      <p class="chapter-body">When the afternoon sun gets heavy and screens start to blur, Bean There is the reset. Grab a flat white, take a corner seat, and let the ambient playlist do the rest. Work better. Think clearer.</p>
+    </div>
+  </div>
+  <div class="exp-chapter">
+    <div>
+      <div class="chapter-num">03</div>
+      <h2 class="chapter-title">The Late Night</h2>
+      <p class="chapter-body">This is where Bean There truly comes alive. Midnight crowds, low lights, the smell of Maggi and coffee in the air. Whether you have a deadline or just want to watch the city slow down — we stay open for it all.</p>
+    </div>
+    <div class="exp-chapter-img"><img src="https://images.unsplash.com/photo-1585032226651-759b368d7246?w=600&q=80" alt="Night" loading="lazy"></div>
+  </div>
+  <div class="fullwidth-quote">
+    <p class="fq-text">"The best conversations happen after midnight, over <em>one more cup</em>."</p>
+  </div>
+</div>
+
+<!-- ==================== CONTACT PAGE ==================== -->
+<div id="page-contact" class="page">
+  <div class="contact-hero">
+    <div class="contact-info">
+      <span class="section-label">Find Us</span>
+      <h1 class="section-title">Visit Bean<br><em>There Today</em></h1>
+      <div class="divider"></div>
+      <div class="info-card">
+        <span class="info-label">Address</span>
+        <div class="info-text">MIG-129, APHB Colony, Phase-IV, DLF<br>Gachibowli, Hyderabad<br>Telangana 500032</div>
+      </div>
+      <div class="info-card">
+        <span class="info-label">Hours</span>
+        <div class="info-text">Open Daily — No days off<br>Until 12:30 AM every night</div>
+      </div>
+      <div class="info-card">
+        <span class="info-label">Founded by</span>
+        <div class="info-text">Kumar & Shaker</div>
+      </div>
+      <div class="map-wrap">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.4!2d78.3391!3d17.4401!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTfCsDI2JzI0LjQiTiA3OMKwMjAnMjAuOCJF!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
+      </div>
+    </div>
+    <div class="contact-form-wrap">
+      <span class="section-label">Get in Touch</span>
+      <h2 class="section-title" style="font-size:2rem;margin-bottom:2rem">Send a<br><em>Message</em></h2>
+      <div class="form-group">
+        <label class="form-label">Name</label>
+        <input type="text" class="form-input" placeholder="Your name">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" placeholder="your@email.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Enquiry Type</label>
+        <select class="form-input" style="cursor:pointer">
+          <option value="">Select enquiry type</option>
+          <option>Table Reservation</option>
+          <option>Event Enquiry</option>
+          <option>General Question</option>
+          <option>Feedback</option>
+          <option>Corporate Enquiry</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Message</label>
+        <textarea class="form-input" placeholder="Your message..."></textarea>
+      </div>
+      <button class="btn-primary" style="width:100%;padding:1rem" onclick="handleForm(this)">Send Message</button>
+      <div id="form-success" style="display:none;margin-top:1rem;padding:1rem;background:rgba(111,78,55,0.3);border:1px solid rgba(214,180,138,0.3);text-align:center;font-size:.88rem;color:#D6B48A">Your message has been received. We will be in touch shortly.</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">Bean There</div>
+      <div class="footer-tagline">Bold Brews &nbsp;•&nbsp; Chill Vibes</div>
+      <p class="footer-desc">A premium cafe experience in the heart of Gachibowli, Hyderabad. Open daily until 12:30 AM. Founded by Kumar and Shaker.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigate</div>
+      <ul class="footer-links">
+        <li><a onclick="showPage('home')">Home</a></li>
+        <li><a onclick="showPage('about')">About</a></li>
+        <li><a onclick="showPage('menu')">Menu</a></li>
+        <li><a onclick="showPage('gallery')">Gallery</a></li>
+        <li><a onclick="showPage('experience')">Experience</a></li>
+        <li><a onclick="showPage('contact')">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Hours</div>
+      <ul class="footer-links">
+        <li><a>Open Daily</a></li>
+        <li><a>Until 12:30 AM</a></li>
+        <li><a>No days off</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Location</div>
+      <ul class="footer-links">
+        <li><a>MIG-129, APHB Colony</a></li>
+        <li><a>Phase-IV, DLF</a></li>
+        <li><a>Gachibowli, Hyderabad</a></li>
+        <li><a>Telangana 500032</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 Bean There. All rights reserved. Founded by Kumar &amp; Shaker.</div>
+    <div class="footer-copy">Bold Brews &nbsp;•&nbsp; Chill Vibes &nbsp;•&nbsp; Gachibowli, Hyderabad</div>
+  </div>
+</footer>
+
+<script>
+// ===================== COFFEE SHOWCASE =====================
+const PRODUCTS = [
+  {
+    id:0, name:"Espresso", label:"Single Origin",
+    desc:"Rich, bold and unapologetically strong. Our single-origin espresso — your perfect pick-me-up every time.",
+    price:"₹99", rating:4.0, reviews:"2.4k",
+    bg1:"#1c0a04", bg2:"#0e0502", accent:"#c4581a", glow:"rgba(140,50,15,0.55)",
+    img:"https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=700&q=85&fit=crop",
+    thumb:"https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=120&q=70&fit=crop"
+  },
+  {
+    id:1, name:"Flat White", label:"House Favourite",
+    desc:"Silky microfoam meets a double ristretto. The most balanced cup in our repertoire — understated elegance.",
+    price:"₹139", rating:4.7, reviews:"3.1k",
+    bg1:"#221408", bg2:"#120c04", accent:"#b8834a", glow:"rgba(120,80,30,0.5)",
+    img:"https://images.unsplash.com/photo-1577968897966-3d4325b36b61?w=700&q=85&fit=crop",
+    thumb:"https://images.unsplash.com/photo-1577968897966-3d4325b36b61?w=120&q=70&fit=crop"
+  },
+  {
+    id:2, name:"Masala Chai", label:"Indian Special",
+    desc:"Ginger, cardamom, cinnamon — simmered slow and served with love. India's finest in every sip.",
+    price:"₹89", rating:4.9, reviews:"5.2k",
+    bg1:"#2c1a08", bg2:"#180e04", accent:"#c49a50", glow:"rgba(180,120,40,0.55)",
+    img:"https://images.unsplash.com/photo-1585032226651-759b368d7246?w=700&q=85&fit=crop",
+    thumb:"https://images.unsplash.com/photo-1585032226651-759b368d7246?w=120&q=70&fit=crop"
+  },
+  {
+    id:3, name:"Cold Brew", label:"Signature Cold",
+    desc:"Steeped 18 hours for a smooth, full-bodied richness. No bitterness — just pure cold coffee perfection.",
+    price:"₹149", rating:4.5, reviews:"1.9k",
+    bg1:"#281405", bg2:"#160b02", accent:"#a0612a", glow:"rgba(130,70,20,0.55)",
+    img:"https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=700&q=85&fit=crop",
+    thumb:"https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=120&q=70&fit=crop"
+  },
+  {
+    id:4, name:"Caramel Frappe", label:"Sweet Indulgence",
+    desc:"Blended espresso, ice and buttery caramel. Rich, cold, and absolutely indulgent — summer in a cup.",
+    price:"₹169", rating:4.8, reviews:"4.2k",
+    bg1:"#160e06", bg2:"#0c0804", accent:"#c9a96e", glow:"rgba(150,100,30,0.55)",
+    img:"https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=700&q=85&fit=crop",
+    thumb:"https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=120&q=70&fit=crop"
+  }
+];
+
+let csActive = 0;
+let csTransitioning = false;
+
+function csInit() {
+  renderCsSelector();
+  csSetProduct(0, true);
+}
+
+function renderCsSelector() {
+  const sel = document.getElementById('cs-selector');
+  sel.innerHTML = PRODUCTS.map((p,i) => `
+    <div class="cs-thumb ${i===0?'active':''}" id="cs-thumb-${i}" onclick="csSelect(${i})">
+      <div class="cs-thumb-img"><img src="${p.thumb}" alt="${p.name}" loading="lazy"></div>
+      <div class="cs-thumb-name">${p.name.split(' ')[0]}</div>
+    </div>
+  `).join('');
+}
+
+function csSelect(idx) {
+  if(csTransitioning || idx === csActive) return;
+  csTransitioning = true;
+  // Fade out
+  const wrap = document.getElementById('cs-img-wrap');
+  wrap.classList.remove('visible'); wrap.classList.add('hidden');
+  document.getElementById('cs-name').style.opacity = '0';
+  document.getElementById('cs-desc').style.opacity = '0';
+  setTimeout(()=>{
+    csSetProduct(idx, false);
+    setTimeout(()=>{ csTransitioning = false; }, 700);
+  }, 380);
+}
+
+function csSetProduct(idx, instant) {
+  const p = PRODUCTS[idx];
+  csActive = idx;
+
+  // Update bg
+  const bg = document.getElementById('cs-bg');
+  bg.style.background = `linear-gradient(135deg, ${p.bg1} 0%, ${p.bg2} 100%)`;
+
+  // Update glow
+  document.getElementById('cs-glow').style.background = p.glow;
+
+  // Update text
+  document.getElementById('cs-label').textContent = p.label;
+  const nameEl = document.getElementById('cs-name');
+  const parts = p.name.split(' ');
+  nameEl.innerHTML = parts.length > 1
+    ? parts[0] + '<br><em>' + parts.slice(1).join(' ') + '</em>'
+    : '<em>' + p.name + '</em>';
+  document.getElementById('cs-desc').textContent = p.desc;
+  document.getElementById('cs-price').textContent = p.price;
+  document.getElementById('cs-bg-text').textContent = p.name.toUpperCase();
+
+  // Rating
+  document.getElementById('cs-rating-num').textContent = p.rating.toFixed(1);
+  const stars = document.getElementById('cs-stars');
+  stars.innerHTML = [1,2,3,4,5].map(s =>
+    `<span class="cs-star ${s<=Math.round(p.rating)?'on':'off'}">★</span>`
+  ).join('');
+  document.getElementById('cs-reviews').textContent = p.reviews + ' Reviews';
+
+  // Image
+  const wrap = document.getElementById('cs-img-wrap');
+  const img = document.getElementById('cs-img');
+  img.src = p.img;
+  img.alt = p.name;
+
+  if(instant) {
+    setTimeout(()=>{
+      wrap.classList.remove('hidden'); wrap.classList.add('visible');
+      document.getElementById('cs-name').style.opacity='1';
+      document.getElementById('cs-desc').style.opacity='1';
+    }, 300);
+  } else {
+    setTimeout(()=>{
+      wrap.classList.remove('hidden'); wrap.classList.add('visible');
+      document.getElementById('cs-name').style.opacity='1';
+      document.getElementById('cs-desc').style.opacity='1';
+    }, 100);
+  }
+
+  // Active thumb
+  document.querySelectorAll('.cs-thumb').forEach((el,i)=>{
+    el.classList.toggle('active', i===idx);
+  });
+}
+
+// Auto-cycle every 5 seconds
+setInterval(()=>{
+  if(!csTransitioning) csSelect((csActive+1)%PRODUCTS.length);
+}, 5000);
+
+// ===================== LOADER =====================
+setTimeout(()=>{
+  document.getElementById('loader').classList.add('hidden');
+  csInit();
+}, 2200);
+
+// ===================== NAV SCROLL =====================
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>60);
+});
+
+// ===================== PAGE ROUTING =====================
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const el = document.getElementById('page-'+page);
+  if(el){ el.classList.add('active'); window.scrollTo({top:0,behavior:'smooth'}); }
+}
+
+// ===================== MOBILE MENU =====================
+function toggleMobile() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+// ===================== MENU FILTER =====================
+function filterMenu(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.menu-category').forEach(c=>{
+    c.style.display = (cat==='all'||c.dataset.cat===cat) ? 'block' : 'none';
+  });
+}
+
+// ===================== LIGHTBOX =====================
+function openLightbox(src) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('lightbox').addEventListener('click',function(e){
+  if(e.target===this)closeLightbox();
+});
+
+// ===================== FORM =====================
+function handleForm(btn) {
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+  setTimeout(()=>{
+    btn.style.display='none';
+    document.getElementById('form-success').style.display='block';
+  },1200);
+}
+
+// Close mobile on outside click
+document.addEventListener('click',function(e){
+  const mm=document.getElementById('mobileMenu');
+  const hm=document.getElementById('hamburger');
+  if(mm.classList.contains('open')&&!mm.contains(e.target)&&!hm.contains(e.target)){
+    mm.classList.remove('open');
+  }
+});
+</script>
+</body>
+</html>
